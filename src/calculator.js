@@ -1,40 +1,18 @@
-'use strict';
-
-var Calculator = function(){
+var StringKata = function(){
 	this.add = function(string){
-		var numbers = string.split(GetDelimiters(string)).filter(LessThan1000);
-		var negatives = numbers.filter(Negative);
-		if (negatives.length == 0){
-			return numbers.reduce(Sum,0);
+		var numbers = getNumbers(string).filter(function(x) {return x <= 1000});
+		var negatives = numbers.filter(function(x){return x < 0});
+		if (negatives.length != 0){
+			throw new Error("negatives not allowed " + negatives);
 		}
-		else{
-			throw new Error("Negatives not allowed: " + negatives);
-		}
+		return numbers.reduce(function(x,y){return x + y},0);
 	}
-
-	function Sum(x,y){
-		return parseInt(x) + parseInt(y);
-	}
-
-	function LessThan1000(x){
-		return parseInt(x) <= 1000;
-	}
-
-	function Negative(x){
-		return parseInt(x) < 0;
-	}
-
-	function GetDelimiters(string){
+	function getNumbers(string){
+		var delimiters = /[,|\n]+/;
 		if (string.indexOf("//") == 0){
-			if (string.indexOf("[") == 2){
-				return new RegExp(string.substring(2,string.indexOf("]\n")).replace("][","|") + "|\n]+", "i");
-			}
-			else{
-				return new RegExp("[" + string.substring(2,string.indexOf("\n")) + "|\n]+", "i");
-			}
+			delimiters = new RegExp(string.substring(2,string.indexOf("\n")).replace("][","|"));
+			string = string.substring(string.indexOf("\n"));
 		}
-		else {
-			return /[,|\n]+/;
-		}
+		return string.split(delimiters).map(function(x) {return parseInt(x)});
 	}
 }
