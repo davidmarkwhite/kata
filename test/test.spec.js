@@ -1,10 +1,10 @@
 'use strict';
 
 describe("String Calculator", function(){
-	var Calculator1 = new Calculator();
+	var Calculator1 = new StringKata();
 	describe("Instantiate", function(){
 		it("Instantiation works", function(){
-			expect(Calculator1).to.be.instanceOf(Calculator);
+			expect(Calculator1).to.be.instanceOf(StringKata);
 		})
 	})
 	describe("add", function(){
